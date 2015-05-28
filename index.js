@@ -27,29 +27,29 @@ mongoClient.open(function(err, mongoClient) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.bodyParser());
 
-app.get('/:collection', function(req, res) { //A
-   	var params = req.params; //B
-   	collectionDriver.findAll(req.params.collection, function(error, objs) { //C
-		if (error) { res.send(400, error); } //D
+app.get('/:collection', function(req, res) { 
+   	var params = req.params; 
+   	collectionDriver.findAll(req.params.collection, function(error, objs) { 
+		if (error) { res.send(400, error); } 
 	      		else { 
-	          		if (req.accepts('html')) { //E
-    	          		res.render('data',{objects: objs, collection: req.params.collection}); //F
+	          		if (req.accepts('html')) { 
+    	          		res.render('data',{objects: objs, collection: req.params.collection}); 
               		} else {
-	          		res.set('Content-Type','application/json'); //G
-                  		res.send(200, objs); //H
+	          		res.set('Content-Type','application/json'); 
+                  		res.send(200, objs); 
               		}
          	}
    	});
 });
  
-app.get('/:collection/:entity', function(req, res) { //I
+app.get('/:collection/:entity', function(req, res) { 
 	var params = req.params;
 	var entity = params.entity;
 	var collection = params.collection;
 	if (entity) {
-		collectionDriver.get(collection, entity, function(error, objs) { //J
+		collectionDriver.get(collection, entity, function(error, objs) { 
 			if (error) { res.send(400, error); }
-			else { res.send(200, objs); } //K
+			else { res.send(200, objs); } 
 		});
    	} else {
       		res.send(400, {error: 'bad url', url: req.url});
@@ -96,8 +96,8 @@ app.delete('/:collection/:entity', function(req, res) {
 });
 		
 
-app.use(function (req,res) { //1
-	res.render('404', {url:req.url}); //2
+app.use(function (req,res) { 
+	res.render('404', {url:req.url}); 
 });
 
 http.createServer(app).listen(app.get('port'), function() {

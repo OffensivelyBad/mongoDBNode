@@ -53,9 +53,9 @@ CollectionDriver.prototype.update = function(collectionName, obj, entityId, call
     	this.getCollection(collectionName, function(error, the_collection) {
         	if (error) callback(error);
        		 else {
-           		 obj._id = ObjectID(entityId); //A convert to a real obj id
-           		 obj.updated_at = new Date(); //B
-           		 the_collection.save(obj, function(error,doc) { //C
+           		 obj._id = ObjectID(entityId); 
+           		 obj.updated_at = new Date(); 
+           		 the_collection.save(obj, function(error,doc) { 
                			 if (error) callback(error);
                 		else callback(null, obj);
            		 });
@@ -64,10 +64,10 @@ CollectionDriver.prototype.update = function(collectionName, obj, entityId, call
 };
 
 CollectionDriver.prototype.delete = function(collectionName, entityId, callback) {
-    	this.getCollection(collectionName, function(error, the_collection) { //A
+    	this.getCollection(collectionName, function(error, the_collection) { 
         	if (error) callback(error);
        		 else {
-           		 the_collection.remove({'_id':ObjectID(entityId)}, function(error,doc) { //B
+           		 the_collection.remove({'_id':ObjectID(entityId)}, function(error,doc) { 
                 		if (error) callback(error);
                 		else callback(null, doc);
             		});
