@@ -27,29 +27,43 @@ mongoClient.open(function(err, mongoClient) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.bodyParser());
 
-app.get('/:collection', function(req, res) { 
-   	var params = req.params; 
-   	collectionDriver.findAll(req.params.collection, function(error, objs) { 
-		if (error) { res.send(400, error); } 
+app.get('/:collection', function(req, res) { //A
+   	var params = req.params; //B
+   	collectionDriver.findAll(req.params.collection, function(error, objs) { //C
+		if (error) { res.send(400, error); } //D
 	      		else { 
-	          		if (req.accepts('html')) { 
-    	          		res.render('data',{objects: objs, collection: req.params.collection}); 
+	          		if (req.accepts('html')) { //E
+    	          		res.render('data',{objects: objs, collection: req.params.collection}); //F
               		} else {
-	          		res.set('Content-Type','application/json'); 
-                  		res.send(200, objs); 
+	          		res.set('Content-Type','application/json'); //G
+                  		res.send(200, objs); //H
               		}
          	}
    	});
 });
  
-app.get('/:collection/:entity', function(req, res) { 
+//app.get('/:collection/:entity', function(req, res) { //I
+//	var params = req.params;
+//	var entity = params.entity;
+//	var collection = params.collection;
+//	if (entity) {
+//		collectionDriver.get(collection, entity, function(error, objs) { //J
+//			if (error) { res.send(400, error); }
+//			else { res.send(200, objs); } //K
+//		});
+//   	} else {
+//      		res.send(400, {error: 'bad url', url: req.url});
+//   	}
+//});
+
+app.get('/:collection/:entity', function(req, res) { //I
 	var params = req.params;
 	var entity = params.entity;
 	var collection = params.collection;
 	if (entity) {
-		collectionDriver.get(collection, entity, function(error, objs) { 
+		collectionDriver.getUser(collection, entity, function(error, objs) { //J
 			if (error) { res.send(400, error); }
-			else { res.send(200, objs); } 
+			else { res.send(200, objs); } //K
 		});
    	} else {
       		res.send(400, {error: 'bad url', url: req.url});
@@ -96,8 +110,8 @@ app.delete('/:collection/:entity', function(req, res) {
 });
 		
 
-app.use(function (req,res) { 
-	res.render('404', {url:req.url}); 
+app.use(function (req,res) { //1
+	res.render('404', {url:req.url}); //2
 });
 
 http.createServer(app).listen(app.get('port'), function() {
